@@ -1,1 +1,3 @@
 /nginx/logs/*
+/app/vendor/*
+/app/.env
