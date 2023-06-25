@@ -1,0 +1,84 @@
+version: "3.8"
+
+networks:
+  telegram-sing-up:
+    driver: bridge
+
+volumes:
+  telegram-sing-up-mysql:
+
+services:
+  php-fpm:
+    container_name: php-telegram-sing-up
+    build:
+      context: ./php-server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      MODE: polling
+      # MODE: webhooks
+      TZ: Europe/Minsk
+    volumes:
+      - ./app:/var/www/html
+      # Конфиги для php
+      - ./php-server/xdebug.ini:/etc/php/8.2/mods-available/xdebug.ini
+    extra_hosts:
+      - "xdebug-phpstorm.my:192.168.100.30"
+    networks:
+      - telegram-sing-up
+    depends_on:
+      - mysql
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-telegram-sing-up
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT}:80"
+    volumes:
+      # Это конфиги для хостов
+      - ./nginx/config/:/etc/nginx/conf.d
+      # Это файлы сайтов
+      - ./app:/var/www/html
+      - ./nginx/logs:/var/log/nginx
+    networks:
+      - telegram-sing-up
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-server-telegram-sing-up
+    restart: always
+    ports:
+      - ${MYSQL_PORT}:3306
+    environment:
+      MYSQL_DATABASE: user
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./dump-task:/docker-entrypoint-initdb.d
+      - telegram-sing-up-mysql:/var/lib/mysql
+    networks:
+      - telegram-sing-up
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin-telegram-sing-up
+    restart: always
+    ports:
+      - ${PHPMYADMIN_PORT}:80
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql
+    networks:
+      - telegram-sing-up
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer-telegram-sing-up
+    restart: always
+    ports:
+      - ${ADMINER_PORT}:8080
+    networks:
+      - telegram-sing-up

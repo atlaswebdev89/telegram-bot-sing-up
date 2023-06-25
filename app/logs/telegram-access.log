@@ -1,0 +1,8 @@
+[2023-06-25T17:02:35.508399+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","message":"/init"} []
+[2023-06-25T17:02:35.581077+00:00] telegram-log.INFO: debug test [] []
+[2023-06-25T17:03:16.805578+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","message":"/start"} []
+[2023-06-25T17:03:26.904009+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","message":"/start"} []
+[2023-06-25T17:03:31.414290+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","message":"/init"} []
+[2023-06-25T17:04:15.866289+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","message":"/start"} []
+[2023-06-25T17:04:20.157054+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","message":"/init"} []
+[2023-06-25T17:04:20.166144+00:00] telegram-log.ERROR: debug test [] []
