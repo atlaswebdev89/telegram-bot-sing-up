@@ -9,15 +9,15 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
         '60799491728b879e74601d83e38b2cad' => __DIR__ . '/..' . '/illuminate/collections/helpers.php',
+        'fb4ca2d97fe7ba6af750497425204e70' => __DIR__ . '/..' . '/sentry/sentry/src/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
-        'fb4ca2d97fe7ba6af750497425204e70' => __DIR__ . '/..' . '/sentry/sentry/src/functions.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
     );
 
@@ -25,6 +25,10 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
         'v' => 
         array (
             'voku\\' => 5,
+        ),
+        'j' => 
+        array (
+            'jacklul\\MonologTelegramHandler\\' => 31,
         ),
         'T' => 
         array (
@@ -43,6 +47,10 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
             'Symfony\\Component\\HttpClient\\' => 29,
             'Sentry\\' => 7,
         ),
+        'R' => 
+        array (
+            'RedBeanPHP\\' => 11,
+        ),
         'P' => 
         array (
             'Psr\\SimpleCache\\' => 16,
@@ -60,6 +68,7 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
         ),
         'L' => 
         array (
+            'Logtail\\Monolog\\' => 16,
             'League\\Event\\' => 13,
         ),
         'J' => 
@@ -97,6 +106,10 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
             'Clue\\StreamFilter\\' => 18,
             'Carbon\\' => 7,
         ),
+        'B' => 
+        array (
+            'BGalati\\MonologSentryHandler\\' => 29,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -107,6 +120,10 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
         'voku\\' => 
         array (
             0 => __DIR__ . '/..' . '/voku/portable-ascii/src/voku',
+        ),
+        'jacklul\\MonologTelegramHandler\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jacklul/monolog-telegram/src',
         ),
         'Telegram\\Bot\\' => 
         array (
@@ -152,6 +169,10 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
         array (
             0 => __DIR__ . '/..' . '/sentry/sentry/src',
         ),
+        'RedBeanPHP\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gabordemooij/redbean/RedBeanPHP',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
@@ -188,6 +209,10 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'Logtail\\Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/logtail/monolog-logtail/src/Monolog',
         ),
         'League\\Event\\' => 
         array (
@@ -264,6 +289,10 @@ class ComposerStaticInitf0a2ea0b6dc97e1f586d86ab9442b996
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'BGalati\\MonologSentryHandler\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bgalati/monolog-sentry-handler/src',
         ),
         'App\\' => 
         array (

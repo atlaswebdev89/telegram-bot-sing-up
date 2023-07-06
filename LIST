@@ -4,3 +4,17 @@
 4. Сделать логирование на monolog
 5. Очень желательно покрыть весь код тестами (phpunit pest codeceptions)
 6. Провести статический анализ кода 
+
+
+7. Все ошибки в sentry
+8. LogTail для логирования запросов и ответов
+9. telegram для оповещения о критических ошибках
+
+if ($this->telegramNotify) {
+			$this->telegramNotify->error('Request in telegram', [
+				'chat_id' => $this->chat_id(),
+				'username' => $this->username(),
+				'message' => $this->getQuery(),
+			]);
+		}
+

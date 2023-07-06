@@ -4,8 +4,70 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c3b0566d959382a87bca726e34cd6fa7",
+    "content-hash": "1624648d5e9a5747d5bf62cfa05cda0a",
     "packages": [
+        {
+            "name": "bgalati/monolog-sentry-handler",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/B-Galati/monolog-sentry-handler.git",
+                "reference": "c68948713c3204a5eb220d21025b5258f298908c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/B-Galati/monolog-sentry-handler/zipball/c68948713c3204a5eb220d21025b5258f298908c",
+                "reference": "c68948713c3204a5eb220d21025b5258f298908c",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "^1.6 || ^2.0 || ^3.0",
+                "php": "^7.4 || ^8.0",
+                "sentry/sentry": "^3.1"
+            },
+            "require-dev": {
+                "coduo/php-matcher": "^6.0.8",
+                "friendsofphp/php-cs-fixer": "^3.9",
+                "jangregor/phpstan-prophecy": "1.0.0",
+                "phpstan/phpstan": "1.8.2",
+                "phpstan/phpstan-phpunit": "1.1.1",
+                "phpunit/phpunit": "^9.5.21",
+                "sentry/sdk": "^3.1",
+                "symfony/phpunit-bridge": "^4.4.41",
+                "symfony/var-dumper": ">4.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "BGalati\\MonologSentryHandler\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benoit Galati",
+                    "email": "benoit.galati@gmail.com"
+                },
+                {
+                    "name": "Grzegorz Korba",
+                    "email": "grzegorz.korba@codito.pl"
+                }
+            ],
+            "description": "Sentry handler for PHP SDK v2/v3",
+            "support": {
+                "issues": "https://github.com/B-Galati/monolog-sentry-handler/issues",
+                "source": "https://github.com/B-Galati/monolog-sentry-handler/tree/2.0.0"
+            },
+            "time": "2022-07-29T13:43:27+00:00"
+        },
         {
             "name": "clue/stream-filter",
             "version": "v1.6.0",
@@ -162,6 +224,52 @@
                 }
             ],
             "time": "2023-06-16T13:40:37+00:00"
+        },
+        {
+            "name": "gabordemooij/redbean",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabordemooij/redbean.git",
+                "reference": "b733ef75b3fe2c343b9c688bcf17d91ae8c7aa38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabordemooij/redbean/zipball/b733ef75b3fe2c343b9c688bcf17d91ae8c7aa38",
+                "reference": "b733ef75b3fe2c343b9c688bcf17d91ae8c7aa38",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RedBeanPHP\\": "RedBeanPHP"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Gabor de Mooij",
+                    "email": "gabor@redbeanphp.com",
+                    "homepage": "https://redbeanphp.com"
+                }
+            ],
+            "description": "RedBeanPHP ORM",
+            "homepage": "https://redbeanphp.com/",
+            "keywords": [
+                "orm"
+            ],
+            "support": {
+                "issues": "https://github.com/gabordemooij/redbean/issues",
+                "source": "https://github.com/gabordemooij/redbean/tree/master"
+            },
+            "time": "2023-04-11T18:38:27+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -958,6 +1066,67 @@
             "time": "2023-05-28T19:57:36+00:00"
         },
         {
+            "name": "jacklul/monolog-telegram",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacklul/monolog-telegram.git",
+                "reference": "00a03525df4a3dd2fcdfebf3427d1224366bb284"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacklul/monolog-telegram/zipball/00a03525df4a3dd2fcdfebf3427d1224366bb284",
+                "reference": "00a03525df4a3dd2fcdfebf3427d1224366bb284",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "monolog/monolog": "^3.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "^9.0",
+                "squizlabs/php_codesniffer": "^3.2",
+                "vlucas/phpdotenv": "^5.0"
+            },
+            "suggest": {
+                "ext-curl": "cURL generally works better and is recommended"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "jacklul\\MonologTelegramHandler\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jack'lul",
+                    "email": "jacklulcat@gmail.com",
+                    "homepage": "https://jacklul.github.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Monolog handler that sends logs through Telegram bot to any chat in HTML format",
+            "keywords": [
+                "bot",
+                "log",
+                "logging",
+                "monolog",
+                "telegram"
+            ],
+            "support": {
+                "issues": "https://github.com/jacklul/monolog-telegram/issues",
+                "source": "https://github.com/jacklul/monolog-telegram"
+            },
+            "time": "2023-01-31T18:28:01+00:00"
+        },
+        {
             "name": "jean85/pretty-package-versions",
             "version": "2.0.5",
             "source": {
@@ -1074,6 +1243,54 @@
                 "source": "https://github.com/thephpleague/event/tree/3.0.2"
             },
             "time": "2022-10-29T09:31:25+00:00"
+        },
+        {
+            "name": "logtail/monolog-logtail",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/logtail/monolog-logtail.git",
+                "reference": "d7f13ba47a0d55e6c9fa6895eb0a68b7d1795957"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/logtail/monolog-logtail/zipball/d7f13ba47a0d55e6c9fa6895eb0a68b7d1795957",
+                "reference": "d7f13ba47a0d55e6c9fa6895eb0a68b7d1795957",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "monolog/monolog": "^3",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Logtail\\Monolog\\": "src/Monolog"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "ISC"
+            ],
+            "description": "Logtail handler for Monolog",
+            "homepage": "https://github.com/logtail/logtail-php",
+            "keywords": [
+                "handler",
+                "log",
+                "logger",
+                "logging",
+                "monolog",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/logtail/monolog-logtail/issues",
+                "source": "https://github.com/logtail/monolog-logtail/tree/v3.0.0"
+            },
+            "time": "2023-03-01T18:58:27+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3390,7 +3607,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "gabordemooij/redbean": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

@@ -4,12 +4,11 @@ namespace App\Core\Traits;
 
 trait GetMessageBot
 {
-
 	/**
 	 * Пoлучение строки запроса 
 	 * или текста инлайн кнопки
 	 */
-	protected $message;
+	public $message;
 
 	public function getQuery()
 	{
@@ -25,6 +24,12 @@ trait GetMessageBot
 				break;
 		}
 		return $query;
+	}
+
+	public function changeQuery($query)
+	{
+		if (isset($this->message->message->text))
+			$this->message->message->text = $query;
 	}
 
 	/**
@@ -94,5 +99,45 @@ trait GetMessageBot
 				break;
 		}
 		return $messageId;
+	}
+
+	public function callbackQueryId()
+	{
+		if (isset($this->message->callback_query->id)) {
+			return $this->message->callback_query->id;
+		}
+	}
+
+	// Получить клавиатуру после нажатия inline кнопки
+	public function getInlineKeyboards()
+	{
+		if (isset($this->message->callback_query->message->reply_markup)) {
+			return $this->message->callback_query->message->reply_markup;
+		}
+	}
+
+	// Получить значение текста в сообщении при нажатии на инлайн кнопку
+	public function getTextMessageInline()
+	{
+		if (isset($this->message->callback_query->message->text)) {
+			return $this->message->callback_query->message->text;
+		}
+	}
+
+	// Развернуть массив со значеними выбраных кнопок на клаиватуре 
+	protected function makeListInlineButtons()
+	{
+		$keyboards = $this->getInlineKeyboards();
+		if ($keyboards) {
+			$result = [];
+			foreach ($keyboards as $slots) {
+				foreach ($slots as $slot) {
+					foreach ($slot as $item) {
+						if ($item->text) $result[] = $item->text;
+					}
+				}
+			}
+			return $result;
+		}
 	}
 }

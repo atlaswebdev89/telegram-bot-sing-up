@@ -20,7 +20,7 @@ class QueryMysqlList implements \App\Core\Interfaces\QueryStorageInterface
 		}
 
 		$this->mysql = $this->container['mysql-server'];
-		$this->table = $_ENV['MYSQL_TABLE_STATE'];
+		$this->table = getenv('MYSQL_TABLE_STATE');
 	}
 
 	public function query($sql, $type, array $data = NULL)
@@ -51,7 +51,7 @@ class QueryMysqlList implements \App\Core\Interfaces\QueryStorageInterface
 		$sql = "INSERT INTO " . $this->table . " (chat_id, state) VALUES (:chat_id, :state) ON DUPLICATE KEY UPDATE state=:state";
 		$data_array = array(
 			'chat_id'      => $chat_id,
-			'state'    => $state
+			'state'    => $state,
 		);
 		$result =  $this->query($sql, $type, $data_array);
 		return $result;
@@ -77,7 +77,6 @@ class QueryMysqlList implements \App\Core\Interfaces\QueryStorageInterface
 	{
 		//Проверим создана ли таблица
 	}
-
 
 	//Функция сохранения данных в хранилище
 	public function saveData($chat_id, $username, $field, $value)

@@ -6,6 +6,6 @@ class StubMachine
 {
 	public function __call($name, $arguments)
 	{
-		echo "Not init state machine. Method $name not exists" . PHP_EOL;
+		error_log("Not init state machine. Method $name not exists" . PHP_EOL);
 	}
 }

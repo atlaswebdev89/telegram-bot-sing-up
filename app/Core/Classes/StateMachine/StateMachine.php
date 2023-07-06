@@ -3,9 +3,18 @@
 namespace App\Core\Classes\StateMachine;
 
 use App\Core\Interfaces\StateMachineInterface;
+use App\Core\Traits\GetMessageBot;
 
+/**
+ * @todo Передалеть exceptions
+ */
 class StateMachine implements StateMachineInterface
 {
+	/**
+	 * Трейт для работы с пришедшим message
+	 */
+	use GetMessageBot;
+
 	const ROOT = 'root';
 	const DEF_ROOT = 'start';
 	const STATES = 'subsequence';
@@ -22,6 +31,7 @@ class StateMachine implements StateMachineInterface
 
 	public $stateTree;
 	public $di;
+	public $stack;
 
 	public $currentTrans;
 	public $currentState;
@@ -29,10 +39,16 @@ class StateMachine implements StateMachineInterface
 	public $storage;
 	public $chat_id;
 
+	//Logger
+	protected $fileLog;
+
 	public function __construct($contaner)
 	{
 		$this->di = $contaner;
 		$this->setRootTree();
+		// File logger 
+		$this->fileLog = $this->di['monolog']->getFileLogger($this->di['rootDir'], 'telegram-log-state');
+		$this->stack = $this->di['stack'];
 	}
 
 	public function addStorage(string $storage)

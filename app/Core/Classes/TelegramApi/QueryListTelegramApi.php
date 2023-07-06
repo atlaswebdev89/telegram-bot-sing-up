@@ -58,6 +58,19 @@ class QueryListTelegramApi
 		return $response;
 	}
 
+	/**
+	 * Функция обратного вызова на нажатие кпонки на inline клавиатуре
+	 */
+	public function answerCallbackQuery($cbq, array $arr)
+	{
+		$response = $this->httpClient->queryBuilder('answerCallbackQuery', [
+			'callback_query_id' => $cbq,
+			'text' => (isset($arr['text'])) ? $arr['text'] : '',
+			'show_alert' => (isset($arr['alert'])) ? $arr['alert'] : false,
+		]);
+		return $response;
+	}
+
 	public function updateMessage($chat_id, array $arr)
 	{
 		$response = $this->httpClient->queryBuilder('editMessageText', [
@@ -65,6 +78,7 @@ class QueryListTelegramApi
 			'chat_id' => $chat_id,
 			'message_id' => $arr['message_id'],
 			'reply_markup' => $arr['button'],
+			"parse_mode" => (isset($data['parse_mode'])) ? $data['parse_mode'] : 'html',
 		]);
 		return $response;
 	}
