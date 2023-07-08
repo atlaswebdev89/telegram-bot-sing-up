@@ -32,7 +32,7 @@ interface QueryStorageInterface
 
 
 	// Установка состояния для чата 
-	public function setState(string $chat_id, string $state);
+	public function setState(string $chat_id, string $state, string $username);
 
 	// Получение текущего состояния
 	public function getCurrentState(string $chat_id);

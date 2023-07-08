@@ -1,9 +1,8 @@
 <?php
 
-namespace App\MyHandlerState;
+namespace App\Handlers\States;
 
 use App\Core\Handlers\StatesHandler;
-use LDAP\Result;
 
 class DataSelectCalendar extends StatesHandler
 {

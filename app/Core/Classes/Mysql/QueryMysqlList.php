@@ -45,12 +45,13 @@ class QueryMysqlList implements \App\Core\Interfaces\QueryStorageInterface
 	}
 
 	// Установка состояния для чата 
-	public function setState(string $chat_id, string $state)
+	public function setState(string $chat_id, string $state, string $username)
 	{
 		$type = 'count';
-		$sql = "INSERT INTO " . $this->table . " (chat_id, state) VALUES (:chat_id, :state) ON DUPLICATE KEY UPDATE state=:state";
+		$sql = "INSERT INTO " . $this->table . " (chat_id, username, state) VALUES (:chat_id, :username, :state) ON DUPLICATE KEY UPDATE state=:state, username=:username";
 		$data_array = array(
 			'chat_id'      => $chat_id,
+			'username' => $username,
 			'state'    => $state,
 		);
 		$result =  $this->query($sql, $type, $data_array);
@@ -73,6 +74,16 @@ class QueryMysqlList implements \App\Core\Interfaces\QueryStorageInterface
 		return FALSE;
 	}
 
+	public function existsUser($chat_id)
+	{
+		$type = 'count';
+		$sql = "SELECT * FROM `" . $this->table . "` WHERE `chat_id` = :chat_id";
+		$data_array = array(
+			'chat_id'  => $chat_id
+		);
+		$result =  $this->query($sql, $type, $data_array);
+		return $result;
+	}
 	public function createSchema()
 	{
 		//Проверим создана ли таблица

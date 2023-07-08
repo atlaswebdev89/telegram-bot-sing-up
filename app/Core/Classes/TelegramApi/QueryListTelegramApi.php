@@ -8,10 +8,12 @@ class QueryListTelegramApi
 	protected $container;
 	protected $updateID;
 	protected $httpClient;
+	protected $sdkApi;
 
 	public function __construct($container)
 	{
 		$this->container = $container;
+		$this->sdkApi = $this->container['sdk-telegram-bot'];
 		$this->httpClient = $container['http-client'];
 	}
 
@@ -88,6 +90,19 @@ class QueryListTelegramApi
 			'text' => $arr['text'],
 			'message_id' => $arr['message_id'],
 			'chat_id' => $chat_id,
+		]);
+		return $response;
+	}
+
+	public function sdk($query)
+	{
+		return $this->sdkApi->$query();
+	}
+
+	public function setWebHook($webhook)
+	{
+		$response = $this->httpClient->queryBuilder('setWebhook', [
+			'url' => $webhook,
 		]);
 		return $response;
 	}

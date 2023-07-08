@@ -23,6 +23,7 @@ class TelegramBot
 
 	public $events = [];
 	public $states = [];
+	public $console = [];
 
 	public $machine;
 	public $storage;
@@ -35,6 +36,7 @@ class TelegramBot
 	public $remoteLog;
 	public $telegramNotify;
 	public $sentryLogger;
+	public $consoleLog;
 
 	protected $chat_id;
 	protected $di;
@@ -55,6 +57,8 @@ class TelegramBot
 		$this->telegramNotify = $this->di['monolog']->getTelegramHandler('telegram-bot');
 		// Logger Sentry
 		$this->sentryLogger = $this->di['monolog']->getSentryHandler('telegram-bot');
+		// Logger для Console command
+		$this->consoleLog = $this->di['monolog']->getFileLogger($path, 'telegram-console-log');
 	}
 
 	# set variables (dotenv) Это ПОКА не используем
@@ -83,10 +87,44 @@ class TelegramBot
 	public function run($message)
 	{
 		$this->message = $message;
+
+		/**
+		 * Временная загрушка пна сообщение my_chat_member
+		 * Никаких действий не предусмотрено
+		 * @todo В будущем разобраться как это использовать my_chat_member
+		 */
+
+		if ($this->getStatusMember()) {
+			return TRUE;
+		}
 		/**
 		 * Запись в лог запросов
 		 */
 		$this->infoLogger();
+
+		###########################################################
+		/**
+		 * Проверку на пароль если он включен Без него не будет доступа
+		 * 
+		 */
+		if (!$this->di['security']->checkUserInStorage($this->message) && !$this->checkAdmin()) {
+			switch ($this->getQuery()) {
+				case ("/start"):
+					$this->sendMsg("Для доступа к боту необходим пароль");
+					return FALSE;
+					break;
+				default:
+					if ($this->di['security']->checkUserPassword($this->message)) {
+						$this->sendMsg("Доступ разрешен\nДобро пожаловать");
+						$this->handlerRun("/start");
+						return FALSE;
+					} else {
+						$this->sendMsg("Пароль не верный\nПопробуйте еще раз");
+						return FALSE;
+					}
+			}
+		}
+		################################################################
 
 		// Запускается при наличии handlers для определенного состояния и инициализированной машины состояний
 		// А также проверяется чтоб это не было зарегистрированной командой
@@ -122,7 +160,7 @@ class TelegramBot
 			 * Проверяем включена ли для команды опция admin и являеться ли текущий пользователь админом
 			 */
 			if ($this->di['admins'] && $this->events[$query]::$admin) {
-				if (in_array($this->chat_id(), $this->di['admins'])) {
+				if ($this->checkAdmin()) {
 					$handler->execute();
 					return TRUE;
 				}
@@ -147,11 +185,34 @@ class TelegramBot
 			'request' => $this->getQuery(),
 		]);
 	}
+
+	// Функция запуска для cron
+
+	public function consoleRun($handler)
+	{
+		/**
+		 * Запись в лог запросов
+		 */
+		$this->consoleLog->info("Console command run", ['handler' => $handler]);
+		if (isset($this->console[$handler])) {
+			$handler = $this->createCommand($this->console[$handler]);
+			/**
+			 * @todo добавить проверку сущестрования указаного метода
+			 */
+			/**
+			 * Проверяем включена ли для команды опция admin и являеться ли текущий пользователь админом
+			 */
+			$handler->execute();
+			return TRUE;
+		}
+	}
 	// Функция позволяет запускать команды из других обработчиков
 	public function handlerRun($command)
 	{
 		// Модифицирует обьект message 
 		$this->changeQuery($command);
+		// передать message машине состояний
+		if ($this->machine) $this->machine->message = $this->message;
 
 		if (isset($this->events[$command])) {
 			$handler = $this->createCommand($this->events[$command]);
@@ -165,6 +226,14 @@ class TelegramBot
 	// function polling for get all message from telegram bots
 	public function startPolling()
 	{
+		/**
+		 * Console commands 
+		 */
+		if ($_SERVER['argv'] && $_SERVER['argv'][1]) {
+			$this->consoleRun($_SERVER['argv'][1]);
+			return TRUE;
+		};
+
 		// count error connection
 		$countFail = 0;
 
@@ -203,6 +272,11 @@ class TelegramBot
 		// Получаем данные
 		$message = $this->getRawData();
 		if (empty($message)) {
+			if ($_SERVER['argv'] && $_SERVER['argv'][1]) {
+				$this->consoleRun($_SERVER['argv'][1]);
+				return TRUE;
+			};
+
 			echo "Telegram bot from brestburger working!!!" . PHP_EOL;
 			$this->fileLog->error('Get request in http client. Not found data');
 			exit;
@@ -224,6 +298,20 @@ class TelegramBot
 			}
 		} else {
 			throw new \Exception("No array argument");
+		}
+	}
+
+	/**
+	 * Добавление cron обработчиков
+	 */
+	public function addCommandsConsole(array $commands)
+	{
+		if (is_array($commands)) {
+			foreach ($commands as $key => $class) {
+				$this->console[trim($key)] = $class;
+			}
+		} else {
+			throw new \Exception("No array argument " . __CLASS__ . __METHOD__);
 		}
 	}
 	// Возможность добавлять псевданимы на команды
@@ -278,6 +366,7 @@ class TelegramBot
 		if ($storage) {
 			$this->machine = $this->di['state-machine'];
 			$this->machine->addStorage($storage);
+			$this->di['security']->addStorage($storage);
 		} else {
 			throw new StateMachineExceptions('Not set storage for state. In method createStateMachine set type handler(mysql, redis)');
 		}
@@ -310,5 +399,25 @@ class TelegramBot
 			'username' => $this->username(),
 			'request' => $this->getQuery(),
 		]);
+	}
+
+	// Отправка сообщений в телеграмм
+	protected function sendMsg(string $text)
+	{
+		$this->queriesTelegramApi->sendMessage($this->chat_id(), [
+			'text' => $text
+		]);
+	}
+
+	/**
+	 * Проверка является ли текущий пользователь админом
+	 */
+	protected function checkAdmin()
+	{
+		if ($this->di['admins']) {
+			if (in_array($this->chat_id(), $this->di["admins"])) {
+				return TRUE;
+			}
+		}
 	}
 }

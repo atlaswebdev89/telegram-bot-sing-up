@@ -1,6 +1,6 @@
 <?php
 
-namespace App\MyHandlerState;
+namespace App\Handlers\States;
 
 use App\Core\Handlers\StatesHandler;
 

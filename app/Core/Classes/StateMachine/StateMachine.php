@@ -116,7 +116,7 @@ class StateMachine implements StateMachineInterface
 	// Установка состояния для чата
 	public function setState(string $state)
 	{
-		return $this->storage->setState($this->chat_id, $state);
+		return $this->storage->setState($this->chat_id, $state, $this->username());
 	}
 
 	// Установка начального состояния 

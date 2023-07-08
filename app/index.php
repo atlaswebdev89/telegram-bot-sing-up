@@ -13,17 +13,27 @@ ini_set('error_log', 'logs/php-errors.log');
 require_once 'vendor/autoload.php';
 
 use App\Core\TelegramBot;
-use App\MyCommands\BackCommand;
 
-use App\MyCommands\StartCommand;
-use App\MyCommands\ContactCommand;
-use App\MyHandlerState\AgeHandler;
-use App\MyHandlerState\OneHandler;
-use App\MyCommands\CalendarCommand;
-use App\MyHandlerState\NameHandler;
-use App\MyHandlerState\WorkHandler;
-use App\MyHandlerState\DataSelectCalendar;
-use App\MyHandlerState\TimeSelectCalendar;
+use App\Handlers\Commands\BackCommand;
+
+use App\Handlers\Console\GetWebHook;
+use App\Handlers\Console\InfoBot;
+use App\Handlers\Console\SetWebHook;
+
+use App\Handlers\Cron\NotifyAdminCountSum;
+
+use App\Handlers\Commands\StartCommand;
+use App\Handlers\Commands\ContactCommand;
+use App\Handlers\Commands\CalendarCommand;
+
+
+use App\Handlers\States\AgeHandler;
+use App\Handlers\States\OneHandler;
+use App\Handlers\States\NameHandler;
+use App\Handlers\States\WorkHandler;
+use App\Handlers\States\DataSelectCalendar;
+use App\Handlers\States\TimeSelectCalendar;
+
 
 try {
 
@@ -52,6 +62,14 @@ try {
 	]);
 
 	$telegram->aliasCommands(['/calendar' => ['Календарь']]);
+
+	// Обработчики для cron
+	$telegram->addCommandsConsole([
+		'notifyAdminCountSum' => NotifyAdminCountSum::class,
+		'infoBot' => InfoBot::class,
+		'setwebhook' => SetWebHook::class,
+		'getwebhook' => GetWebHook::class,
+	]);
 
 	$statesTree = [
 		'root' => 'START',

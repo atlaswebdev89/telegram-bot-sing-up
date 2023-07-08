@@ -140,4 +140,16 @@ trait GetMessageBot
 			return $result;
 		}
 	}
+
+	/**
+	 * Получение статуса сообщения my_chat_member
+	 * Это сообщение получает телеграмм бот при удалении и блокировке бота и при 
+	 * Возвращении к боту нажатием кнопки Restart bot
+	 */
+	protected function getStatusMember()
+	{
+		if (isset($this->message->my_chat_member->new_chat_member->status)) {
+			return $this->message->my_chat_member->new_chat_member->status;
+		}
+	}
 }
