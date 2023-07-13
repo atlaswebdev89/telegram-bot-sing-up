@@ -366,3 +366,4 @@
 [2023-07-13T12:17:15.952511+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","request":"month_08_2023"} []
 [2023-07-13T12:17:18.324663+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","request":"💰 На завтра"} []
 [2023-07-13T12:17:33.104807+00:00] telegram-log.INFO: Request in telegram {"chat_id":496315328,"username":"atlas_it89","request":"📌 Список клиентов"} []
+[2023-07-13T15:18:02.034436+03:00] telegram-console-log.INFO: Console command run {"handler":"notifyAdminCountSum"} []
