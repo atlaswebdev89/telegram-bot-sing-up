@@ -10,25 +10,28 @@ class StartCommand extends CommandsHandler
 	protected string $name = 'start';
 	protected string $description = 'Start Command to get you started';
 
+	/**
+	 * Клавиатура для админа
+	 */
 	public function getKeyboards()
 	{
 		return json_encode([
 			'keyboard' => [
 				[
 					[
-						'text' => 'Календарь',
+						'text' => '📆 Календарь',
 					],
 					[
-						'text' => 'Время доставки',
+						'text' => '💰 Сумма',
 					],
 
 				],
 				[
 					[
-						'text' => "\xE2\x98\x9D Контакты",
+						'text' => "📞 Контакты",
 					],
 					[
-						'text' => "\xF0\x9F\x9A\xAB	Наш сайт",
+						'text' => "⏰ Режим работы",
 					],
 				]
 			],
@@ -36,7 +39,35 @@ class StartCommand extends CommandsHandler
 			'resize_keyboard' => TRUE,
 		]);
 	}
+	/**
+	 * Клавиатура для пользователей
+	 */
+	public function getKeyboardUser()
+	{
+		return json_encode([
+			'keyboard' => [
+				[
+					[
+						'text' => '📆 Выбрать дату',
+					],
+					[
+						'text' => '📋 Инфо',
+					],
 
+				],
+				[
+					[
+						'text' => "⏰ Режим работы",
+					],
+					[
+						'text' => "📞 Контакты",
+					],
+				]
+			],
+			'one_time_keyboard' => FALSE,
+			'resize_keyboard' => TRUE,
+		]);
+	}
 	/**
 	 * Для получения кнопок с учетом роли пользователя (для админа будут все, 
 	 * для обычных пользователй часть кнопок не будет доступна)
@@ -48,22 +79,39 @@ class StartCommand extends CommandsHandler
 		 */
 		return $this->getButtonsKeybord([
 			"0" => [
-				"Календарь",
-				"Время доставки",
+				"📆 Календарь",
+				"📌 Список клиентов",
+
 			],
 			"1" => [
-				"\xE2\x98\x9D Контакты",
-				"\xF0\x9F\x9A\xAB Наш сайт",
+				"💰 На сегодня",
+				"💰 На завтра",
 			]
 		]);
 	}
 
+	public function textUser()
+	{
+		return "Привет. Я телеграмм бот Bastion Travel\n"
+			. "Благодаря мне ты можешь указать  сумму денег и выбрать дату из доступных, "
+			. "когда тебе будет удобно приехать к моему начальнику и получить cash";
+	}
+	public function textAdmin()
+	{
+		return "Привет. Я телеграмм бот <b>Bastion Travel</b>\n"
+			. "<b>Приветствую тебя мой повелитель</b>\n"
+			. "Вы администратор бота и можете делать все что пожелаете нужным";
+	}
 	public function execute()
 	{
 		$result = $this->machine->setDefault();
+		$keybords = ($this->isAdmin()) ? $this->getKeybodardAdmin() : $this->getKeyboardUser();
+		$text = ($this->isAdmin()) ? $this->textAdmin() : $this->textUser();
+
 		$response = $this->api->sendTextWithButton($this->chat_id(), [
-			'text' => 'STATUS MACHINE ' . $this->machine->getCurrentState(),
-			'button' => $this->getKeybodardAdmin(),
+			'text' => $text,
+			'button' => $keybords,
+			"parse_mode" => "html",
 		]);
 	}
 }

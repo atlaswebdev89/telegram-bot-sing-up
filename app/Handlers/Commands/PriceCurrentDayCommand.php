@@ -1,32 +1,23 @@
 <?php
 
-namespace App\Handlers\Cron;
+namespace App\Handlers\Commands;
 
-use App\Core\Exceptions\NotSummExceptions;
-use App\Core\Handlers\ConsoleBasicHandler;
+use App\Core\Handlers\CommandsHandler;
 
-class NotifyAdminCountSum extends ConsoleBasicHandler
+
+class PriceCurrentDayCommand extends CommandsHandler
 {
+	public $table_users = "telegram_price_users";
+	public $table_date = "telegram_table_free_slot_date_time";
 
-	public $chat_id = "496315328";
 	public function execute()
 	{
-		try {
-			$text = $this->getSumm();
-			$response = $this->api->sendMessage($this->chat_id, [
-				'text' => $text,
-			]);
-			if ($response) {
-				$this->telegram->consoleLog->info("Request done succesfull", ['handler' => "NotifyAdmin"]);
-			}
-		} catch (NotSummExceptions $e) {
-			$this->telegram->remoteLog->warning('Cron task: summ Not Found', [
-				'date' => date('d-m-Y H:i:s'),
-			]);
-		}
+		$response = $this->api->sendMessage($this->chat_id(), [
+			'text' => $this->getPriceNextDay(),
+		]);
 	}
 
-	public function getSumm()
+	public function getPriceNextDay()
 	{
 		$currentDay = date('d-m-Y');
 
@@ -43,7 +34,7 @@ class NotifyAdminCountSum extends ConsoleBasicHandler
 			$text = "Сумма на сегодня " . $currentDay . "\n";
 			$text .= $sum . " рублей\n";
 		} else {
-			throw new NotSummExceptions("Not found");
+			$text = "На сегодня никто не записался";
 		}
 		return $text;
 	}

@@ -1,0 +1,24 @@
+[13-Jul-2023 12:11:17 UTC] Error:exceptions - Error: Call to a member function prepare() on null in /var/www/html/Core/Classes/Mysql/QueryMysqlList.php:35
+Stack trace:
+#0 /var/www/html/Core/Classes/Mysql/QueryMysqlList.php(84): App\Core\Classes\Mysql\QueryMysqlList->query()
+#1 /var/www/html/Core/Extensions/Security.php(32): App\Core\Classes\Mysql\QueryMysqlList->existsUser()
+#2 /var/www/html/Core/TelegramBot.php(110): App\Core\Extensions\Security->checkUserInStorage()
+#3 /var/www/html/Core/TelegramBot.php(285): App\Core\TelegramBot->run()
+#4 /var/www/html/index.php(126): App\Core\TelegramBot->start()
+#5 {main}
+[13-Jul-2023 12:16:21 UTC] Error:exceptions - Error: Call to a member function prepare() on null in /var/www/html/Core/Classes/Mysql/QueryMysqlList.php:35
+Stack trace:
+#0 /var/www/html/Core/Classes/Mysql/QueryMysqlList.php(84): App\Core\Classes\Mysql\QueryMysqlList->query()
+#1 /var/www/html/Core/Extensions/Security.php(32): App\Core\Classes\Mysql\QueryMysqlList->existsUser()
+#2 /var/www/html/Core/TelegramBot.php(110): App\Core\Extensions\Security->checkUserInStorage()
+#3 /var/www/html/Core/TelegramBot.php(285): App\Core\TelegramBot->run()
+#4 /var/www/html/index.php(126): App\Core\TelegramBot->start()
+#5 {main}
+[13-Jul-2023 12:16:27 UTC] Error:exceptions - Error: Call to a member function prepare() on null in /var/www/html/Core/Classes/Mysql/QueryMysqlList.php:35
+Stack trace:
+#0 /var/www/html/Core/Classes/Mysql/QueryMysqlList.php(84): App\Core\Classes\Mysql\QueryMysqlList->query()
+#1 /var/www/html/Core/Extensions/Security.php(32): App\Core\Classes\Mysql\QueryMysqlList->existsUser()
+#2 /var/www/html/Core/TelegramBot.php(110): App\Core\Extensions\Security->checkUserInStorage()
+#3 /var/www/html/Core/TelegramBot.php(285): App\Core\TelegramBot->run()
+#4 /var/www/html/index.php(126): App\Core\TelegramBot->start()
+#5 {main}

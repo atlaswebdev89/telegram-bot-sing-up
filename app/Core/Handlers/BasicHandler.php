@@ -65,6 +65,14 @@ abstract class BasicHandler
 		}
 	}
 
+	/**
+	 * Функция проверки админ или обычный пользователь
+	 */
+	public function isAdmin()
+	{
+		return (in_array($this->chat_id(), $this->di['admins'])) ? TRUE : FALSE;
+	}
+
 	public function getBasicArrayButtons()
 	{
 		return [
@@ -95,5 +103,48 @@ abstract class BasicHandler
 			}
 			return json_encode($buttons);
 		}
+	}
+
+
+	/** 
+	 * Метод для получения данных о сумме и дате выдаче
+	 */
+	public function responseInfo()
+	{
+		$table_price = "telegram_price_users";
+		/**
+		 * Делаем запрос на получение информации о записи пользователя
+		 */
+		$sqls = "SELECT date, slots, price FROM " . $table_price . " 
+			LEFT JOIN `telegram_table_states` ON `telegram_table_states`.`id` = `telegram_price_users`.`id_user`
+			LEFT JOIN `telegram_table_free_slot_date_time` ON `telegram_price_users`.`id_date`=`telegram_table_free_slot_date_time`.`id`
+			WHERE `telegram_table_states`.`chat_id` = :chat_id";
+		$data_array = array(
+			'chat_id'      => $this->chat_id(),
+		);
+		$result = $this->storage->query($sqls, 'arraydata', $data_array);
+
+		if ($result) {
+			$result = $result[0];
+			$text = "<b>Информация</b>\n\n";
+			$text .= "<b>Дата выдачи</b>\n";
+			$text .= $result['date'] . "\n\n";
+			$slots = json_decode($result['slots']);
+			if ($slots) {
+				$text .= "<b>Время выдачи</b>\n";
+				foreach ($slots as $slot) {
+					$text .= $slot . "\n";
+				}
+			}
+			$text .= "<b>\nСумма</b>:\n";
+			$text .= $result['price'] . " рублей\n";
+		} else {
+			$text = "Вы пока не записаны!\nНеобходимо нажать кнопку \nВыбрать дату\n или ввести\n/selectDate";
+		}
+
+		$response = $this->api->sendMessage($this->chat_id(), [
+			'text' => $text,
+			"parse_mode" => "html",
+		]);
 	}
 }

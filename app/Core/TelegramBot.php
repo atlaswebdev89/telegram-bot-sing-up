@@ -374,16 +374,6 @@ class TelegramBot
 		if ($data) $this->machine->loadTreeState($data);
 	}
 	#####################################################################
-	/**
-	 * Функция проверяет включен режим только админа для комманды
-	 */
-	public function ButtonIsAdmin(string $command)
-	{
-		if (is_string($command)) {
-			if (isset($this->events[$command]) && $this->events[$command]::$admin) {
-			}
-		}
-	}
 
 	// Запись в лог запроса Чтоб нечего не потерялось
 	protected function infoLogger()

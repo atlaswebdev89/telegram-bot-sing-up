@@ -115,6 +115,7 @@ class Calendar
 		foreach ($nameDays as $name) {
 			$days[$line][] = $name;
 		}
+
 		$line++;
 		// заполним начало если нужно пустыми значениями
 		for ($i = 0; $i < $this->getNumDayOfWeek($date); $i++) {
@@ -193,7 +194,7 @@ class Calendar
 		}
 		// готовим данные
 		$data = [
-			"text" => "<b>Календарь:</b>\n\n" . $current->format("F Y"),
+			"text" => "<b>Календарь:</b>\n" . $current->format("F Y") . "\nТекущая дата <b>" . date("d-m-Y") . "</b>",
 			"parse_mode" => "html",
 			"button" => json_encode(['inline_keyboard' => $buttons])
 		];
@@ -264,5 +265,38 @@ class Calendar
 			$data["message_id"] = $message_id;
 		}
 		return $data;
+	}
+
+	/** 
+	 * Функция получения времени выдачи
+	 */
+	public function getTimeSlots($data, $message_id)
+	{
+		$result = $this->getSelectedTimeSlot($data);
+		if ($result && is_array($result)) {
+			$buttons_back[] = [
+				[
+					// выведем день
+					"text" => "Назад",
+					// поределим параметры
+					"callback_data" => "back",
+				],
+			];
+			$str = date("d-m-Y", strtotime($data)) . "\n\n<b>Время выдачи</b>\n";
+			foreach ($result as $key => $slot) {
+				$str .= $slot . "\n";
+			}
+			$str .= "\n";
+			$str .= "<b>Укажите сумму (руб):</b>\n";
+
+			$data = [
+				"text" => $str,
+				"parse_mode" => "html",
+				"button" => json_encode(['inline_keyboard' => $buttons_back]),
+				"message_id" => $message_id,
+			];
+			return $data;
+		}
+		return FALSE;
 	}
 }

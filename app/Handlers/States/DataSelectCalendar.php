@@ -22,6 +22,7 @@ class DataSelectCalendar extends StatesHandler
 				$response = $this->api->updateMessage($this->chat_id(), $calendar);
 				break;
 			case ($data[0] == 'day'):
+
 				$this->api->answerCallbackQuery($cbq_id, ['text' => 'Выберете слоты времени']);
 				// Получить текущие слоты времени 
 				//Сами слоты прописаны в файле класса Лучше убрать для возможности редактирования

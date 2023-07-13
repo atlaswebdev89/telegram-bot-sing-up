@@ -14,25 +14,31 @@ require_once 'vendor/autoload.php';
 
 use App\Core\TelegramBot;
 
-use App\Handlers\Commands\BackCommand;
-
-use App\Handlers\Console\GetWebHook;
 use App\Handlers\Console\InfoBot;
+use App\Handlers\Console\GetWebHook;
 use App\Handlers\Console\SetWebHook;
 
-use App\Handlers\Cron\NotifyAdminCountSum;
-
+use App\Handlers\Commands\BackCommand;
+use App\Handlers\Commands\HelpCommand;
+use App\Handlers\Commands\ResetCommand;
 use App\Handlers\Commands\StartCommand;
+use App\Handlers\Commands\AuthorCommand;
+
 use App\Handlers\Commands\ContactCommand;
+
 use App\Handlers\Commands\CalendarCommand;
-
-
-use App\Handlers\States\AgeHandler;
-use App\Handlers\States\OneHandler;
-use App\Handlers\States\NameHandler;
-use App\Handlers\States\WorkHandler;
+use App\Handlers\Commands\InfoDataCommand;
+use App\Handlers\Commands\PriceCurrentDay;
+use App\Handlers\Commands\WorkModeCommand;
+use App\Handlers\Cron\NotifyAdminCountSum;
+use App\Handlers\States\EnterPriceHandler;
+use App\Handlers\States\SelectDataHandler;
+use App\Handlers\Commands\ListUsersCommand;
 use App\Handlers\States\DataSelectCalendar;
 use App\Handlers\States\TimeSelectCalendar;
+use App\Handlers\Commands\SelectDataCommand;
+use App\Handlers\Commands\PriceNextDayCommand;
+use App\Handlers\Commands\PriceCurrentDayCommand;
 
 
 try {
@@ -52,18 +58,34 @@ try {
 	// Одна команда
 	$telegram->addCommand('/start', StartCommand::class);
 
-	// Две команды
+	// Несколько команд команды
 	$telegram->addCommands([
-		'/finish' => FinishCommand::class,
 		'/calendar' => CalendarCommand::class,
 		'/end' => EndCommand::class,
-		"\xE2\x98\x9D Контакты" => ContactCommand::class,
-		'Назад' => BackCommand::class,
+		"/contacts" => ContactCommand::class,
+		"/workmode" => WorkModeCommand::class,
+		'/selectDate' => SelectDataCommand::class,
+		"/info" => InfoDataCommand::class,
+		"/priceNextDay" => PriceNextDayCommand::class,
+		"/priceCurrentDay" => PriceCurrentDayCommand::class,
+		"/listUsers" => ListUsersCommand::class,
+		"/help" => HelpCommand::class,
+		"/reset" => ResetCommand::class,
+		"/author" => AuthorCommand::class,
 	]);
 
-	$telegram->aliasCommands(['/calendar' => ['Календарь']]);
+	$telegram->aliasCommands([
+		'/contacts' => ["📞 Контакты"],
+		'/calendar' => ['📆 Календарь'],
+		'/info' => ['📋 Инфо'],
+		'/selectDate' => ["📆 Выбрать дату"],
+		'/workmode' => ["⏰ Режим работы"],
+		"/priceNextDay" => ["💰 На завтра"],
+		"/priceCurrentDay" => ["💰 На сегодня"],
+		"/listUsers" => ["📌 Список клиентов"],
+	]);
 
-	// Обработчики для cron
+	// Обработчики для console команд В том числе и cron
 	$telegram->addCommandsConsole([
 		'notifyAdminCountSum' => NotifyAdminCountSum::class,
 		'infoBot' => InfoBot::class,
@@ -74,19 +96,13 @@ try {
 	$statesTree = [
 		'root' => 'START',
 		'subsequence' => [
-			'users' => [
-				'name',
-				'age',
-				'work',
-			],
-			'rewievs' => [
-				'name',
-				'state2',
-				'state3',
-			],
 			'calendar' => [
 				'data',
 				'time',
+			],
+			'selectDate' => [
+				'data',
+				'price',
 			]
 
 		],
@@ -100,10 +116,10 @@ try {
 
 	// $telegram->addHandlerState('users.work', WorkHandler::class);
 	$telegram->addHandlerStates([
-		'users.age' => AgeHandler::class,
-		'users.name' => NameHandler::class,
 		'calendar.data' => DataSelectCalendar::class,
 		'calendar.time' => TimeSelectCalendar::class,
+		'selectDate.data' => SelectDataHandler::class,
+		'selectDate.price' => EnterPriceHandler::class,
 	]);
 	// Запускаем бота в режиме Polling
 	// $telegram->startPolling();

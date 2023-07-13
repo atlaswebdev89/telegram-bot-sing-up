@@ -7,7 +7,7 @@ class StatesHandler extends BasicHandler
 	public function iDontGetIt()
 	{
 		$this->api->sendMessage($this->chat_id(), [
-			'text' => 'Не понимаю тебя Handlers not found'
+			'text' => 'Не понимаю тебя'
 		]);
 	}
 }
