@@ -10,6 +10,8 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 'On');
 ini_set('error_log', 'logs/php-errors.log');
 
+date_default_timezone_set("Europe/Minsk");
+
 require_once 'vendor/autoload.php';
 
 use App\Core\TelegramBot;
@@ -39,7 +41,6 @@ use App\Handlers\States\TimeSelectCalendar;
 use App\Handlers\Commands\SelectDataCommand;
 use App\Handlers\Commands\PriceNextDayCommand;
 use App\Handlers\Commands\PriceCurrentDayCommand;
-
 
 try {
 

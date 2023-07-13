@@ -229,7 +229,7 @@ class TelegramBot
 		/**
 		 * Console commands 
 		 */
-		if ($_SERVER['argv'] && $_SERVER['argv'][1]) {
+		if (isset($_SERVER['argv']) && isset($_SERVER['argv'][1])) {
 			$this->consoleRun($_SERVER['argv'][1]);
 			return TRUE;
 		};
@@ -272,12 +272,12 @@ class TelegramBot
 		// Получаем данные
 		$message = $this->getRawData();
 		if (empty($message)) {
-			if ($_SERVER['argv'] && $_SERVER['argv'][1]) {
+			if (isset($_SERVER['argv']) && isset($_SERVER['argv'][1])) {
 				$this->consoleRun($_SERVER['argv'][1]);
 				return TRUE;
 			};
 
-			echo "Telegram bot from brestburger working!!!" . PHP_EOL;
+			echo "Telegram bot from bastion travel working!!!" . PHP_EOL;
 			$this->fileLog->error('Get request in http client. Not found data');
 			exit;
 		}
